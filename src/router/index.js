@@ -1,22 +1,32 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
+// 导入首页
+const Home = () => import('@/components/Home/index.vue')
+// 导入关于
+const About = () => import('@/components/About/index.vue')
+// 导入介绍
+const GameSet = () => import('@/components/GameSet/index.vue')
+// 导入配置
+const ConReq = () => import('@/components/ConReq/index.vue')
+// 导入首页第一张
+const OneWeb = () => import('@/components/Home/one.vue')
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    redirect: '/one'
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/home',
+    component: Home,
+    children: [
+      { path: '/one', component: OneWeb },
+      { path: '/gameset', component: GameSet },
+      { path: '/conreq', component: ConReq },
+      { path: '/about', component: About }
+    ]
   }
 ]
 

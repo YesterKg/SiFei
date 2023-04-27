@@ -1,0 +1,38 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* overflow:hidden */
+}
+a{
+  color: #fff;
+  text-decoration: none;
+}
+li{
+  list-style: none;
+}
+body{
+  height: 100vh;
+  overflow-x:hidden;
+  overflow-y:hidden;
+  padding-right: 0px !important;
+}
+/* 更新日志左侧时间线日期颜色 */
+/* .el-card.is-always-shadow, 
+.el-card.is-hover-shadow:focus,
+.el-card.is-hover-shadow:hover{
+  border: 0;
+} */
+/* 盒子背景与盒子内文字 */
+/* .el-card__body{
+  background-color: #000;
+  color: #fff;
+} */
+/* 时间颜色 */
+.el-timeline-item__timestamp.is-top {
+  color: #fff;
+}
+/* 弹出框导航栏背景颜色 */
+.el-drawer__body{
+  background-color: #000;
+}
