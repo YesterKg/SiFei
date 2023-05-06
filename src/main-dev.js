@@ -1,19 +1,21 @@
+// 开发阶段
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
 import '@/AllCss/index.css'
 // 导入elementui
-import ElementUI from 'element-ui'
+import '@/element/index.js'
 import 'element-ui/lib/theme-chalk/index.css'
+// 导入swpier
+import 'swiper/swiper.min.css'
 // 引入css动画
 import 'animate.css'
 // 引入路由css
 import '@/router/index.css'
-Vue.use(ElementUI)
+import '@/assets/icon/iconfont.css'
 
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

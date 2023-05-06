@@ -1,44 +1,46 @@
 <template>
   <div class="GameSetBox" :style="{ marginTop: MTP + 'px' }">
-    <el-card class="box-card" shadow="none">
-      <div v-for="o in gameTitle" :key="o.id" class="text item">
+    <el-card class="box-card" shadow="none" body-style='padding:0'>
+      <div v-for="o in getTitle" :key="o.id" class="text item">
         {{ o.TextContent }}
       </div>
     </el-card>
-    <el-card shadow="none" class="VideoBox">
+    <el-card shadow="none" class="VideoBox" body-style='padding:0'>
       <div class="VideoText">
-        <span>示例视频</span>
+        <span class="shili">示例视频</span>
       </div>
       <div class="VideoMini">
-        <video src="" width="80%" ref="VideoRef"></video>
-        <i class="el-icon-video-play activeBut" @click="loopVideo" v-if="VideoPlay=true"></i>
+        <iframe
+          :src="getVideo"
+          scrolling="no"
+          border="0"
+          frameborder="no"
+          framespacing="0"
+          allowfullscreen="true"
+          class="videoBili"
+          v-if="Video===true"
+        >
+        </iframe>
+        <el-empty description="视频下架了哦" v-else></el-empty>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'MyGame',
   data () {
     return {
-      WebWidth: 0,
-      WebHeight: 0,
-      gameTitle: [
-        { id: 0, TextContent: '关于游戏' },
-        { id: 1, TextContent: '游戏由虚幻5纯蓝图开发,目前仅为开发测试版!!!' },
-        { id: 2, TextContent: 'UE新手,第一个Demo,精力时间有限' },
-        { id: 3, TextContent: '(场景,美术,音效,UI, 程序)部分素材来源于网络' },
-        { id: 4, TextContent: '个人开发,流程较短' },
-        {
-          id: 5,
-          TextContent: 'BUG超多!!!BUG超多!!!BUG超多!!!再次强调BUG超多!!!'
-        }
-      ],
       MTP: 0,
-      // 控制视频播放与暂停
-      VideoPlay: false
+      // 显示视频
+      Video: true
     }
+  },
+  computed: {
+    // 文字数组
+    ...mapGetters(['getTitle', 'getVideo'])
   },
   methods: {
     // 获取页面宽度
@@ -48,14 +50,8 @@ export default {
       if (document.body.clientWidth < 800) {
         this.MTP = 0
       } else {
-        this.MTP = scrollHeight / 4 - 40
+        this.MTP = scrollHeight / 4 - 140
       }
-    },
-    // 点击播放视频
-    loopVideo () {
-      // 播放视频
-      // this.$refs.VideoRef.play()
-      this.$message.error('无法播放！')
     }
   },
   mounted () {
@@ -75,6 +71,7 @@ export default {
 .GameSetBox {
   display: flex;
   color: #fff;
+  margin: 0 30px;
 }
 // 左右盒子
 .box-card,
@@ -91,12 +88,11 @@ export default {
   .item {
     padding: 18px 0;
   }
-  video {
-    border-radius: 5px;
-  }
 }
-.box-card {
-  margin-left: 60px;
+.text:nth-child(1) {
+  font-size: 32px;
+  font-weight: 600;
+  color: red;
 }
 // 右盒子
 .VideoBox {
@@ -106,27 +102,23 @@ export default {
     padding: 18px 0;
   }
   .VideoMini {
+    height: 0;
     position: relative;
-    background-color: #000;
-    .activeBut {
+    padding-bottom: 56.25%;
+    .videoBili {
+      width: 100%;
+      height: 100%;
       position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translateX(-50%) translateY(-50%);
-      font-size: 60px;
-      cursor: pointer;
-    }
-    .activeBut:hover{
-      color: red;
+      left: 0;
     }
   }
 }
-// 低于1500px
-@media screen and (max-width: 1500px) {
-  .box-card {
-    margin-left: 30px;
+.shili{
+    font-size: 32px;
+    font-weight: 600;
+    color: red;
   }
-}
+
 /*屏幕宽度小于991px,改变布局和样式*/
 @media screen and (max-width: 991px) {
   .box-card,
@@ -134,19 +126,21 @@ export default {
     .text {
       font-size: 22px;
       font-weight: 500;
+      padding: 14px 0;
     }
-  }
-  .box-card {
-    margin-left: 20px;
   }
   .VideoBox {
     font-size: 22px;
+  }
+  .text:nth-child(1){
+    font-size: 32px;
+    font-weight: 600;
   }
 }
 /*屏幕宽度小于800px,改变布局和样式*/
 @media screen and (max-width: 800px) {
   .GameSetBox {
-    display: inline-block;
+    display: grid;
     color: #fff;
   }
   .box-card {
@@ -168,17 +162,26 @@ export default {
       padding: 0px 0 16px 0;
     }
   }
+  .text:nth-child(1){
+    font-size: 28px;
+    font-weight: 600;
+  }
+  .shili{
+    font-size: 28px;
+    font-weight: 600;
+  }
+
 }
 /*屏幕宽度小于600px,改变布局和样式*/
 @media screen and (max-width: 600px) {
   .GameSetBox {
-    display: inline-block;
+    display: grid;
     color: #fff;
     margin: 0 auto;
   }
   .box-card {
     text-align: center;
-    margin-left: 0;
+    margin-bottom: 22px;
   }
   .box-card,
   .VideoBox {
@@ -186,15 +189,21 @@ export default {
       font-size: 18px;
     }
     .item {
-      padding: 10px 0;
+      padding: 3px 0;
     }
   }
   .VideoBox {
-    font-size: 18px;
-    margin-top: -20px;
     .VideoText {
       padding: 0px 0 12px 0;
     }
+  }
+  .text:nth-child(1){
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .shili{
+    font-size: 26px;
+    font-weight: 600;
   }
 }
 // 小于400px
@@ -207,6 +216,19 @@ export default {
     .item {
       padding: 1px 0;
     }
+  }
+  .box-card {
+    text-align: center;
+    margin-bottom: 0px;
+  }
+  .text:nth-child(1){
+    font-size: 24px;
+    font-weight: 500;
+  }
+  .shili{
+    font-size: 24px;
+    font-weight: 500;
+
   }
 }
 </style>

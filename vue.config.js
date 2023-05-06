@@ -1,23 +1,32 @@
 const { defineConfig } = require('@vue/cli-service')
+// const CompressionWebpackPlugin = require('compression-webpack-plugin')
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: '/gameWeb',
   chainWebpack: (config) => {
     // 发布模式
+
     config.when(process.env.NODE_ENV === 'production', (config) => {
       config.entry('app').clear().add('./src/main-prod.js')
       config.set('externals', {
         vue: 'Vue',
         'vue-router': 'VueRouter',
-        'element-ui': 'ELEMENT',
+        axios: 'axios',
         lodash: '_',
-        nprogress: 'NProgress'
+        'vue-quill-editor': 'VueQuillEditor'
       })
 
       config.plugin('html').tap((args) => {
         args[0].isProd = true
         return args
       })
+      // config.plugin('CompressionPlugin').use(
+      //   new CompressionWebpackPlugin({
+      //     test: /\.(js|css)$/,
+      //     threshold: 10240, // 超过10kb的文件就压缩
+      //     deleteOriginalAssets: true, // 不删除源文件
+      //     minRatio: 0.8
+      //   })
+      // )
     })
 
     // 开发模式

@@ -4,7 +4,7 @@
       <!-- 头部 -->
       <el-header>
         <div class="LeftBox">
-          <router-link to="/home" class="logo">DREADFUL HAZY_死|霏</router-link>
+          <router-link to="/one" class="logo">DREADFUL HAZY_死|霏</router-link>
         </div>
         <!-- 右侧 -->
         <div class="RightBox">
@@ -20,7 +20,7 @@
               <router-link to="/conreq">更新日志</router-link>
             </li>
             <li>
-              <router-link to="/about">关于</router-link>
+              <router-link to="/about">关于作者</router-link>
             </li>
           </ul>
         </div>
@@ -28,9 +28,13 @@
     </el-container>
     <!-- 轮播图 -->
     <div class="lbtBigBox">
-      <transition-group name="fade">
+      <transition-group
+        name="fade"
+        mode="out-in"
+        enter-active-class="animate__animated animate__pulse"
+      >
         <div
-          v-for="item in imgList"
+          v-for="item in getImgList"
           :key="item.id"
           class="lbtBox"
           :style="{
@@ -57,12 +61,8 @@
     <!-- 透明图层 -->
     <div class="toumin"></div>
     <!-- 测边框 -->
-    <el-drawer
-      :with-header="false"
-      :visible.sync="drawer"
-      direction="rtl"
-    >
-      <ul class="DrawerTitleUl" @click="drawer=false">
+    <el-drawer :with-header="false" :visible.sync="drawer" direction="rtl">
+      <ul class="DrawerTitleUl" @click="drawer = false">
         <li>
           <router-link to="/one">首页</router-link>
         </li>
@@ -73,43 +73,50 @@
           <router-link to="/conreq">更新日志</router-link>
         </li>
         <li>
-          <router-link to="/about">关于</router-link>
+          <router-link to="/about">关于作者</router-link>
         </li>
       </ul>
     </el-drawer>
+    <canvas id="canvas"></canvas>
   </div>
 </template>
 
 <script>
+import { init } from '@/AllCss/rain.js'
+import { mapGetters } from 'vuex'
 export default {
   name: 'MyHome',
   data () {
     return {
-      imgList: [
-        { id: 0, idView: require('../../img/1.jpg') },
-        { id: 1, idView: require('../../img/2.jpg') },
-        { id: 2, idView: require('../../img/3.jpg') },
-        { id: 3, idView: require('../../img/4.jpg') },
-        { id: 4, idView: require('../../img/5.jpg') },
-        { id: 5, idView: require('../../img/6.jpg') }
-      ],
       listIndex: 0, // 显示第几张图片
       imgTime: null, // 定时器
       VieWidth: false,
       BoxHeight: 0,
       // 控制弹出框与隐藏
-      drawer: false
+      drawer: false,
+      canvasStyle: {
+        position: 'fixed',
+        width: '100%',
+        height: '100%',
+        zIndex: '-1',
+        left: '0',
+        bottom: '0'
+      },
+      ctx: {}
     }
+  },
+  computed: {
+    ...mapGetters(['getImgList'])
   },
   methods: {
     // 开启定时器
     setTimer () {
       this.timer = setInterval(() => {
         this.listIndex++
-        if (this.listIndex === this.imgList.length) {
+        if (this.listIndex === this.getImgList.length) {
           this.listIndex = 0
         }
-      }, 5000)
+      }, 3000)
     },
     // 获取页面宽度
     scrollWidth () {
@@ -124,13 +131,21 @@ export default {
       } else {
         this.VieWidth = true
       }
+    },
+    // 下雨效果
+    initCanvas () {
+      const canvas = document.querySelector('#canvas')
+      this.ctx = canvas.getContext('2d')
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+      init(this.ctx)
     }
-    // 下拉菜单
   },
   mounted () {
     // 每当页面变化时都检测一次
     window.addEventListener('resize', this.scrollWidth)
     this.$nextTick(this.scrollWidth())
+    this.initCanvas()
   },
   created () {
     // 在一进入页面就调用背景切换定时器
@@ -168,12 +183,11 @@ export default {
       color: red;
     }
     .TitleUl {
-      width: 500px;
-      display: flex;
       font-size: 22px;
       li {
-        width: 25%;
+        float: left;
         height: 60px;
+        margin: 0 10px;
       }
       a:hover {
         color: red;
@@ -208,15 +222,6 @@ export default {
   overflow: hidden;
 }
 
-// 轮播图过度动画
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0.5;
-}
 .DrawerTitleUl {
   color: #fff;
   padding: 10px;
@@ -235,6 +240,18 @@ export default {
     cursor: pointer;
   }
 }
+#canvas {
+  position: absolute;
+  top: 0;
+  z-index: -99;
+  width: 100%;
+  height: 100%;
+}
+
+.animate__animated,
+.animate__pulse {
+  --animate-duration: 3s;
+}
 /*屏幕宽度小于991px,改变布局和样式*/
 @media screen and (max-width: 991px) {
   .el-header {
@@ -247,11 +264,7 @@ export default {
     }
     .RightBox {
       .TitleUl {
-        width: 400px;
         font-size: 22px;
-        li {
-          width: 25%;
-        }
       }
     }
   }
@@ -261,10 +274,10 @@ export default {
   .el-header {
     .RightBox {
       .TitleUl {
-        width: 300px;
         font-size: 18px;
         justify-content: center;
-        li {
+        li{
+          margin: 0 8px;
         }
       }
     }

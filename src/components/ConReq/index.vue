@@ -1,11 +1,12 @@
 <template>
   <div class="UpdataLogBox">
+    <!-- 左侧更新日志大盒子 -->
     <div class="LeftBox">
       <p>更新日志</p>
       <div class="block">
         <el-timeline :reverse="true">
           <el-timeline-item
-            v-for="item in Updata"
+            v-for="item in getUpdate"
             :key="item.id"
             :timestamp="item.UpdataTime"
             placement="top"
@@ -13,7 +14,9 @@
             icon="el-icon-more"
           >
             <el-card>
-              <h4>{{ item.UpdataText }}</h4>
+              <h4 v-for="itemss in item.UpdataText" :key="itemss.index">
+                {{ itemss.UpdateTitle }}
+              </h4>
             </el-card>
           </el-timeline-item>
         </el-timeline>
@@ -23,9 +26,9 @@
     <div class="logoBox">
       <img src="../../img/logo.png" alt="" />
     </div>
+    <!-- 右侧意见表单大盒子 -->
     <div class="RightBox">
       <p>写下你的想法</p>
-      <!-- 意见表单 -->
       <el-form ref="addNewRef" :model="addNewForm" :rules="addNewRules">
         <el-form-item prop="email">
           <el-input
@@ -51,37 +54,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'UpdataLog',
   data () {
     return {
-      Updata: [
-        {
-          id: 0,
-          UpdataTime: '2022-10-23',
-          UpdataText: '更新了枪械换弹方式'
-        },
-        {
-          id: 1,
-          UpdataTime: '2022-11-23',
-          UpdataText: '添加新的枪械'
-        },
-        {
-          id: 2,
-          UpdataTime: '2022-12-23',
-          UpdataText: '添加新的角色'
-        },
-        {
-          id: 3,
-          UpdataTime: '2022-12-30',
-          UpdataText: '增加新的地图'
-        },
-        {
-          id: 4,
-          UpdataTime: '2023-1-2',
-          UpdataText: '新增玩法---《死里逃生》'
-        }
-      ],
       // 表单内容
       addNewForm: {
         email: '',
@@ -104,6 +81,9 @@ export default {
         ]
       }
     }
+  },
+  computed: {
+    ...mapGetters(['getUpdate'])
   },
   methods: {
     // 点击提交按钮事件
@@ -136,8 +116,10 @@ export default {
     // 获取页面宽度
     scrollWidth () {
       const scrollWith = document.body.clientWidth
-      if (scrollWith < 600) {
+      if (scrollWith < 800) {
         this.minTextRows = 5
+      } else {
+        this.minTextRows = 15
       }
     }
   },
@@ -166,13 +148,17 @@ export default {
       text-align: center;
       font-size: 24px;
     }
+    .block {
+      height: 600px;
+      overflow: auto;
+    }
   }
   .logoBox {
     flex: 1;
     margin: 0 10px;
     img {
       width: 100%;
-      margin-top: 200px;
+      margin-top: 40px;
     }
   }
   .RightBox {
@@ -233,8 +219,12 @@ export default {
       p {
         font-size: 16px;
       }
-      .el-timeline-item{
-        height: 90px;
+      .block {
+        height: 700px;
+        overflow: auto;
+      }
+      .el-timeline-item {
+        height: 100%;
       }
     }
     .RightBox {
@@ -242,6 +232,15 @@ export default {
     }
     .logoBox {
       display: none;
+    }
+  }
+}
+@media screen and (max-width: 400px) {
+  .UpdataLogBox {
+    .LeftBox {
+      .block {
+        height: 500px;
+      }
     }
   }
 }

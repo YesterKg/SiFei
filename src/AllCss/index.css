@@ -1,3 +1,4 @@
+
 *{
   margin: 0;
   padding: 0;
@@ -16,7 +17,11 @@ body{
   overflow-x:hidden;
   overflow-y:hidden;
   padding-right: 0px !important;
+  /* background:url(../img/1.jpg) no-repeat;
+  background-position: top center;
+  background-size: cover; */
 }
+
 /* 更新日志左侧时间线日期颜色 */
 /* .el-card.is-always-shadow, 
 .el-card.is-hover-shadow:focus,
@@ -35,4 +40,8 @@ body{
 /* 弹出框导航栏背景颜色 */
 .el-drawer__body{
   background-color: #000;
+}
+/* 基本信息字体颜色 */
+.el-descriptions__table{
+  color: #000;
 }
