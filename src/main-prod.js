@@ -5,8 +5,8 @@ import router from './router'
 import store from './store'
 import '@/AllCss/index.css'
 // 导入elementui
-// import '@/element/index.js'
-// import 'element-ui/lib/theme-chalk/index.css'
+import '@/element/index.js'
+import 'element-ui/lib/theme-chalk/index.css'
 // 引入css动画
 import 'animate.css'
 // 引入路由css

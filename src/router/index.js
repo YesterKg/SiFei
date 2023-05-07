@@ -7,6 +7,8 @@ Vue.use(VueRouter)
 const Home = () => import('@/components/Home/index.vue')
 // 导入关于
 const About = () => import('@/components/About/vita.vue')
+// 导入我的简历
+const MyVita = () => import('@/components/About/MyVita.vue')
 // 导入介绍
 const GameSet = () => import('@/components/GameSet/index.vue')
 // 导入配置
@@ -28,7 +30,8 @@ const routes = [
       { path: '/one', component: OneWeb },
       { path: '/gameset', component: GameSet },
       { path: '/conreq', component: ConReq },
-      { path: '/about', component: About }
+      { path: '/about', component: About },
+      { path: '/myvait', component: MyVita }
     ]
   },
   {

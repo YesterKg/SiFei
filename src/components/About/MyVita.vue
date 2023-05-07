@@ -12,7 +12,6 @@
               active-color="#13ce66"
               inactive-color="#ff4949"
               class="SwitchBtn"
-              @change="goMyVita"
             >
             </el-switch>
             <el-avatar
@@ -35,7 +34,7 @@
                 class="iconfont tag-weChat"
                 data-clipboard-text="我是可以复制的内容，请点击复制"
                 style="color: #28c445"
-                @click="weChat"
+                @click="weixin"
                 >&#xe607;</span
               >
             </el-tooltip>
@@ -200,18 +199,19 @@
 <script>
 import Clipboard from 'clipboard'
 export default {
-  name: 'MyVita',
+  name: 'MydeVita',
   data () {
     return {
       url: require('@/img/avatar.jpg'),
       // 头像大小
       avatar: 150,
       Hig: 800,
-      value: true
+      value: false
     }
   },
   methods: {
-    weChat () {
+    weixin () {
+      console.log('ok')
       const clipboard = new Clipboard('.tag-weChat')
       clipboard.on('success', (e) => {
         this.$message.success('微信号复制成功')
@@ -275,9 +275,6 @@ export default {
       } else {
         this.avatar = 150
       }
-    },
-    goMyVita () {
-      // this.$router.push('/myvait')
     }
   },
   mounted () {

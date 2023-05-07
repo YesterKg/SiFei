@@ -18,7 +18,8 @@ import {
   Progress,
   Empty,
   Tooltip,
-  Divider
+  Divider,
+  Switch
 } from 'element-ui'
 Vue.use(Form)
 Vue.use(FormItem)
@@ -38,4 +39,5 @@ Vue.use(Progress)
 Vue.use(Empty)
 Vue.use(Tooltip)
 Vue.use(Divider)
+Vue.use(Switch)
 Vue.prototype.$message = Message
