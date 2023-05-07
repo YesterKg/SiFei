@@ -1,7 +1,10 @@
 const { defineConfig } = require('@vue/cli-service')
 // const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const BASE_URL =
+  process.env.NODE_ENV === 'production' ? '/game_web/' : '/'
 module.exports = defineConfig({
   transpileDependencies: true,
+  publicPath: BASE_URL,
   chainWebpack: (config) => {
     // 发布模式
 
